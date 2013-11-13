@@ -29,26 +29,32 @@ Array.prototype.compare = function (array) {
     return true;
 }
 
-test("jps", function () {
-    console.log("testing jps");
-
-    ok(jps.helloWorld() == "hello world!");
-    ok(jps.echo('test') == 'test');
+test ("jps", function () {
+    //console.log("testing jps");
+    //ok(jps.helloWorld() == "hello world!");
+    //ok(jps.echo('test') == 'test');
 
     // 38... is the Latitude, -77... is the Longitude
     var gpsArr = [38.880810837362944, -77.10213661193848];
     var gpsStr = "38.880810837362944, -77.10213661193848";
 
-    // Convert to array
-    ok(jps.asArray(gpsArr).compare([38.880810837362944, -77.10213661193848]));
-    ok(jps.asArray(gpsStr).compare([38.880810837362944, -77.10213661193848]));
-    ok(!jps.asArray(gpsStr).compare([38.880810837362944, -77.10213661193849]));  // should fail (changed digit)
-    ok(!jps.asArray(gpsArr).compare([38.880810837362944, -77.10213661193848, 0])); // should fail, extra param
-    // Put correct param first
-    ok(jps.latFirst(gpsArr).compare([38.880810837362944, -77.10213661193848]));
-    ok(jps.longFirst(gpsArr).compare([-77.10213661193848, 38.880810837362944]));
-    ok(jps.latFirst(gpsStr).compare([38.880810837362944, -77.10213661193848]));
-    ok(jps.longFirst(gpsStr).compare([-77.10213661193848, 38.880810837362944]));
+    // asArray() : Convert to array
+    ok(jps.asArray(gpsArr).compare([38.880810837362944, -77.10213661193848]),
+        "jps - asArray w/ array");
+    ok(jps.asArray(gpsStr).compare([38.880810837362944, -77.10213661193848]),
+        "jps - asArray w/ string");
+    ok(!jps.asArray(gpsStr).compare([38.880810837362944, -77.10213661193849]),
+        "jps - asArray w/ changed digit (invalid)");  
+    ok(!jps.asArray(gpsArr).compare([38.880810837362944, -77.10213661193848, 0]),
+        "jps - asArray w/ extra param (invalid)"); 
 
-
+    // latFirst(), longFirst() : Put correct param first
+    ok(jps.latFirst(gpsArr).compare([38.880810837362944, -77.10213661193848]),
+        "jps - latFirst, no change");
+    ok(jps.longFirst(gpsArr).compare([-77.10213661193848, 38.880810837362944]),
+        "jps - longFirst, change");
+    ok(jps.latFirst(gpsStr).compare([38.880810837362944, -77.10213661193848]),
+        "jps - latFirst, from string, no change");
+    ok(jps.longFirst(gpsStr).compare([-77.10213661193848, 38.880810837362944]),
+        "jps - latFirst, from string, change");
 });
